@@ -6,7 +6,7 @@ def create_gui():
     root = tk.Tk()
     root.title("Keylogger Control")
 
-    # Button to start keylogger
+    # Buttion will call start_keylogger function
     start_button = tk.Button(root, text="Start Keylogger", command=start_keylogger, width=25)
     start_button.pack(pady=10)
 
