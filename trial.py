@@ -1,1 +1,0 @@
-@router.get("/projects/{job_id}/model/status")
